@@ -1,0 +1,45 @@
+.rendu {
+  color:green;
+}
+
+.nonRendu {
+  color:red;
+  background-color: yellow;
+  border: 2px dashed orange;
+}
+
+.container {
+  display:flex;
+  flex-direction: column;
+}
+
+.ajouterBtn {
+  align-self: flex-end;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-id {
+  color:red;
+}
+
+.example-viewport {
+  height: 400px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.example-item {
+  height: 150px;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
