@@ -10,4 +10,5 @@ export class Assignment {
   remarque?:string;
   professeur?:string;
   image?:string;
+  imageprof?:string;
 }
