@@ -4,6 +4,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
 
+
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
@@ -14,6 +15,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
 
   // pagination
+  rendu=false;
   page=1;
   limit=10;
   totalPages=0;
@@ -71,9 +73,25 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.getAssignments();
   }
 
+
+  getAssignmentsNonRendu() {
+  this.rendu=false;
+  this.getAssignments();
+
+    console.log("Après l'appel au service");
+}
+
+
+getAssignmentsRendu() {
+  this.rendu=true;
+  this.getAssignments();
+  console.log("Après l'appel au service");
+}
+
+
   getAssignments() {
       // demander les données au service de gestion des assignments...
-      this.assignmentsService.getAssignments(this.page, this.limit)
+      this.assignmentsService.getAssignments(this.page, this.limit,this.rendu)
       .subscribe(reponse => {
         console.log("données arrivées");
         this.assignments = reponse.docs;
@@ -92,7 +110,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
 
   getAssignmentsScrollInfini() {
     // demander les données au service de gestion des assignments...
-    this.assignmentsService.getAssignments(this.page, this.limit)
+    this.assignmentsService.getAssignments(this.page, this.limit,this.rendu)
     .subscribe(reponse => {
       console.log("données arrivées");
       //this.assignments = reponse.docs;

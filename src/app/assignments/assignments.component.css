@@ -36,10 +36,28 @@ table {
 }
 
 .example-card {
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+
+.card-galerie{
+  max-width: 25rem;
+  margin: 1rem;
+
+}
+
+.list-assignment{
+  display: flex;
+}
+
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+
+.barrePagination button{
+  margin-right: 1rem;
 }
