@@ -9,9 +9,9 @@
   
   
     <div class="barrePagination">
-        <button mat-flat-button color="primary" (click)="getAssignmentsRendu()">Rendu</button>
-        <button mat-flat-button color="primary" (click)="getAssignmentsNonRendu()">Non Rendu</button>
-      <!-- <p>Page courante : {{page}}, assignments visibles : {{pagingCounter}} - {{pagingCounter + limit-1}}, nbPages total {{totalPages}}</p>
+        <button mat-flat-button [color]="rendu ? 'primary' : 'info'" (click)="getAssignmentsRendu()">Rendu</button>
+        <button mat-flat-button [color]="!rendu ? 'primary' : 'info'" (click)="getAssignmentsNonRendu()">Non Rendu</button>
+      <p>Page courante : {{page}}, assignments visibles : {{pagingCounter}} - {{pagingCounter + limit-1}}, nbPages total {{totalPages}}</p>
       <p>Nb assignments par page : <input type="range" min=5 max=100 [(ngModel)]="limit" (change)="getAssignments()">
         {{limit}}
       </p>
@@ -26,12 +26,14 @@
       &nbsp;
       <button mat-flat-button color="primary" (click)="pageSuivante()" [disabled]="!hasNextPage">Page suivante</button>
       &nbsp;
-      <button mat-flat-button color="primary" (click)="dernierePage()" [disabled]="!hasNextPage">Dernière page</button> -->
+      <button mat-flat-button color="primary" (click)="dernierePage()" [disabled]="!hasNextPage">Dernière page</button>
     </div>
-    <!-- <cdk-virtual-scroll-viewport itemSize="150" class="example-viewport" #scroller> -->
+    <cdk-virtual-scroll-viewport itemSize="150" class="example-viewport" #scroller>
     <!-- <mat-list *cdkVirtualFor="let assignment of assignments"> -->
       <div class="list-assignment">
-    <mat-list class="card-galerie" *ngFor="let assignment of assignments">
+
+    <mat-list  class="card-galerie" *cdkVirtualFor="let assignment of assignments">
+    <!-- <mat-list class="card-galerie" *ngFor="let assignment of assignments"> -->
       <mat-card class="example-card">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
@@ -51,13 +53,13 @@
         <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
         <mat-card-content>
           <h3 mat-subheader>{{assignment.dateDeRendu | date:"dd/MM/yy"}}</h3>
-          <mat-list-item>
-            <p *ngIf="assignment.rendu; else nonsoumis" appRendu>
-              Devoir intitulé {{assignment.nom}}.
-            </p>
-            <ng-template #nonsoumis>
-              <p appNonRendu>Le devoir {{assignment.nom}} n'a pas encore été rendu.</p>
-            </ng-template>
+          <mat-list-item class="nom-assignment">
+            <p>
+                <span *ngIf="assignment.nom.lenght>150; else nomLong">
+                    {{assignment.nom}}
+                </span>
+                <ng-template #nomLong>{{assignment.nom.substring(0,150)}}...</ng-template>
+                </p>
           </mat-list-item>
         </mat-card-content>
         <mat-card-actions>
@@ -68,7 +70,8 @@
   
     </mat-list>
   </div>
-  <!-- </cdk-virtual-scroll-viewport> -->
+  </cdk-virtual-scroll-viewport>
   
   </main>
+  
   
