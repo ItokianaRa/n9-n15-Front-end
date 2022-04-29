@@ -1,6 +1,34 @@
-<mat-card *ngIf="assignmentTransmis">
+<mat-card *ngIf="assignmentTransmis" class="fiche-assignment">
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
   <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
   <mat-card-subtitle>{{assignmentTransmis.dateDeRendu | date:"dd/MM/yy"}}</mat-card-subtitle>
+  <mat-card-content>
+    <p>
+        <span class="non-rendu" *ngIf="!assignmentTransmis.rendu">Devoir à rendre </span>
+    </p>
+    <table class="table-assigment">
+        <tr>
+          <th>Matiére:</th>
+          <td>{{assignmentTransmis.matiere}}</td>
+        </tr>
+        <tr>
+          <th>Note:</th>
+          <td>{{assignmentTransmis.note}}</td>
+        </tr>
+        <tr>
+          <th>Professeur:</th>
+          <td>{{assignmentTransmis.professeur}}</td>
+        </tr>
+        <tr>
+          <th>Remarque:</th>
+          <td>{{assignmentTransmis.remarque}}</td>
+        </tr>
+        <tr>
+          <th>Auteur:</th>
+          <td>{{assignmentTransmis.auteur}}</td>
+        </tr>
+    </table>
+  </mat-card-content>
   <div id="bottom">
     <mat-checkbox *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">Rendu</mat-checkbox>
     <button mat-stroked-button color="primary" (click)="onClickEdit()" [disabled]="!isLoggedIn()">EDIT</button>

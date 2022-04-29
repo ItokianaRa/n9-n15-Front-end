@@ -3,3 +3,19 @@
   justify-content: space-between;
   align-items: flex-end;
 }
+.table-assigment th{
+  text-align: left;
+  padding: 5px;
+}
+
+.fiche-assignment img{
+  width: 30%;
+  display: block;
+  margin: 0px auto;
+  padding-bottom: 2rem;
+}
+
+.non-rendu{
+  color: red;
+  font-style: italic;
+}
