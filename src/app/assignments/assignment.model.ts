@@ -9,4 +9,5 @@ export class Assignment {
   note?:number;
   remarque?:string;
   professeur?:string;
+  image?:string;
 }

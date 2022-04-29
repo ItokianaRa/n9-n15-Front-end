@@ -1,5 +1,5 @@
 <mat-card *ngIf="assignmentTransmis" class="fiche-assignment">
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <img mat-card-image src="{{'../../assets/'+assignmentTransmis.image}}" alt="Photo of a Shiba Inu">
   <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
   <mat-card-subtitle>{{assignmentTransmis.dateDeRendu | date:"dd/MM/yy"}}</mat-card-subtitle>
   <mat-card-content>
@@ -8,7 +8,7 @@
     </p>
     <table class="table-assigment">
         <tr>
-          <th>Matiére:</th>
+          <th>Matière:</th>
           <td>{{assignmentTransmis.matiere}}</td>
         </tr>
         <tr>
