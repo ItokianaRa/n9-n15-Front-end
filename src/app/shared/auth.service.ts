@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Utilisateur } from '../login/utilisateur.model';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +11,27 @@ export class AuthService {
 
   constructor(private http:HttpClient,private router : Router) { }
 
-  loggedIn = false;
+  loggedIn = new BehaviorSubject<boolean>(false);
   url = "http://localhost:8010/api/utilisateurs";
 
   logIn(login:string, password:string) {
     // normalement il faudrait envoyer une requête sur un web service, passer le login et le password
     // et recevoir un token d'authentification, etc. etc.
-    let data={
+    let dt={
       "login":login,
       "mdp":password
     };
-    this.http.post<Utilisateur>(this.url,data).subscribe(data =>{
-      if(data != null){
-        localStorage.setItem('login',data.login);
-        localStorage.setItem('status',data.status);
+    this.http.post(this.url,dt).subscribe((data:any) =>{
+      if(data !== null){
+        let fObj: Utilisateur = <Utilisateur>data;
+        localStorage.setItem('login',fObj.login);
+        localStorage.setItem('status',fObj.status);
         console.log("utilisateur connecte");
-        this.loggedIn = true;
+        this.loggedIn.next(true);
       }
       else
       {
-        this.loggedIn = false;
+        this.loggedIn.next(false);
       }
     });
 
@@ -39,7 +41,7 @@ export class AuthService {
   logOut() {
     localStorage.clear();
     this.router.navigate(['login']);
-    this.loggedIn = false;
+    this.loggedIn.next(false);
   }
 
   isAdmin() {

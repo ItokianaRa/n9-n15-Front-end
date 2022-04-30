@@ -4,6 +4,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
 import { AuthService } from './../shared/auth.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 
 @Component({
@@ -153,5 +154,22 @@ getAssignmentsRendu() {
 
   logOut(){
     this.authService.logOut();
+  }
+
+  items = ['Carrots', 'Tomatoes', 'Onions', 'Apples', 'Avocados'];
+
+  basket = ['Oranges', 'Bananas', 'Cucumbers'];
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }

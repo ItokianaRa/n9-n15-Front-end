@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
     }
     else{
       this.erreur = "Login ou mot de passe incorrecte. Veuillez réessayer."
-      console.log("erreur");
     }
   }
 
