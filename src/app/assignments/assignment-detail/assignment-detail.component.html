@@ -31,7 +31,7 @@
   </mat-card-content>
   <div id="bottom">
     <mat-checkbox *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">Rendu</mat-checkbox>
-    <button mat-stroked-button color="primary" (click)="onClickEdit()" [disabled]="!isLoggedIn()">EDIT</button>
-    <button mat-raised-button color="warn" (click)="onDelete()" [disabled]="!isLoggedIn()">DELETE</button>
+    <button mat-stroked-button color="primary" (click)="onClickEdit()" >EDIT</button>
+    <button mat-raised-button color="warn" (click)="onDelete()">DELETE</button>
   </div>
 </mat-card>

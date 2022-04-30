@@ -24,6 +24,7 @@ export class AssignmentDetailComponent implements OnInit {
     // le + permet de forcer en number (au lieu de string)
     const id = +this.route.snapshot.params['id'];
     this.getAssignment(id);
+    console.log(this.authService.nomEtudiant());
   }
 
   getAssignment(id: number) {
@@ -61,16 +62,16 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onClickEdit() {
-    this.router.navigate(['/assignment', this.assignmentTransmis?.id, 'edit'], {
-      queryParams: {
-        name: 'Michel Buffa',
-        job: 'Professeur',
-      },
-      fragment: 'edition',
-    });
+      this.router.navigate(['/assignment', this.assignmentTransmis?.id, 'edit'], {
+        queryParams: {
+          name: 'Michel Buffa',
+          job: 'Professeur',
+        },
+        fragment: 'edition',
+      });
   }
 
   isLoggedIn() {
-    return this.authService.loggedIn;
+    //return this.authService.loggedIn.value;
   }
 }

@@ -49,9 +49,10 @@ export class AuthService {
 
   isAdmin() {
     let status = localStorage.getItem('status');
+    console.log(status.toUpperCase());
     let adminS = "admin";
     let isAdmin = false;
-    if(status.toUpperCase() === adminS){
+    if(status.toUpperCase() === adminS.toUpperCase()){
       isAdmin = true;
     };
     let isUserAdmin = new Promise((resolve, reject) => {

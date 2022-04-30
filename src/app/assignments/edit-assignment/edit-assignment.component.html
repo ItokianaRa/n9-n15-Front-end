@@ -1,17 +1,47 @@
-<div class="container" *ngIf="assignment">
-  <h1>Edition de l'assignment {{assignment.nom}}</h1>
-  <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); formupdate.reset(); ">
-    <mat-form-field>
-      <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Edition de la date" [(ngModel)]="dateDeRendu" name="date">
-      <mat-datepicker-toggle matSuffix [for]="picker">
-      </mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
-      Sauver
-    </button>
-  </form>
-</div>
+<mat-card>
+  <div class="container" *ngIf="assignment">
+    <h1>Edition de l'assignment {{assignment.nom}}</h1>
+    <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); formupdate.reset(); ">
+      <mat-form-field>
+        <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Edition de la date" [(ngModel)]="dateDeRendu" name="date">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+          <mat-label>Matière</mat-label>
+          <select name="matiere" [(ngModel)]="indice"(change)="choirirMatiere($event)"  matNativeControl required>
+            <option selected>wawa</option>
+            <option *ngFor="let item of listeMatiere ; let index = index;" [value]="index" [selected]="item.matiere===matiere">{{item.matiere}}</option>
+          </select>
+      </mat-form-field>
+      <mat-card *ngIf="professeur">
+          <mat-card-header>
+            <div  mat-card-avatar class="example-header-image"  [ngStyle]="{'background-image': 'url(' + '../../../assets/'+imageprof + ')'}"></div> 
+            <mat-card-subtitle>Professeur</mat-card-subtitle>
+            <mat-card-content>
+                <span *ngIf="professeur">
+                    {{professeur}}
+                </span>
+            </mat-card-content>
+          </mat-card-header>
+        </mat-card>
+  
+        <mat-form-field>
+            <input matInput placeholder="Remarque" [(ngModel)]="remarque" name="remarque">
+        </mat-form-field>
+        
+          <mat-form-field>
+              <input matInput placeholder="Auteur" [(ngModel)]="auteur" name="auteur" disabled>
+          </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
+        Sauver
+      </button>
+    </form>
+  </div>
+</mat-card>
