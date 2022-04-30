@@ -15,6 +15,7 @@
 
 .ajouterBtn {
   align-self: flex-end;
+  float: right;
 }
 
 table {
@@ -50,11 +51,8 @@ table {
   margin: 1rem;
   float: left;
 }
-.nom-assignment{
-  
-}
-.list-assignment{
-  /* display: flex; */
+.cacher button{
+  display: none;
 }
 
 .mat-tab-group {
@@ -63,5 +61,9 @@ table {
 
 .barrePagination button{
   margin-right: 1rem;
+}
+
+.barrePagination{
+  width: 100%;
 }
 

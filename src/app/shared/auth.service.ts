@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
 
   constructor(private http:HttpClient,private router : Router) { }
-
+  statusEtudiant = "etudiant";
   loggedIn = new BehaviorSubject<boolean>(false);
   url = "http://localhost:8010/api/utilisateurs";
 
@@ -26,6 +26,7 @@ export class AuthService {
         let fObj: Utilisateur = <Utilisateur>data;
         localStorage.setItem('login',fObj.login);
         localStorage.setItem('status',fObj.status);
+        localStorage.setItem('nom',fObj.nom+" "+fObj.prenom);
         console.log("utilisateur connecte");
         this.loggedIn.next(true);
       }
@@ -59,5 +60,11 @@ export class AuthService {
   }
 
   // isAdmin().then(admin => { if(admin) { console.log("L'utilisateur est administrateur"); }})
-
+    
+  nomEtudiant(){
+    if(this.loggedIn.value && localStorage.getItem('status')===this.statusEtudiant){
+      return localStorage.getItem('nom')+" "
+    }
+    return "";
+  }
 }

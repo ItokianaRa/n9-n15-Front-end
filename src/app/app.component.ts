@@ -32,6 +32,10 @@ export class AppComponent {
   isLogged() {
     return this.authService.loggedIn;
   }
+  
+  logOut(){
+    this.authService.logOut();
+  }
 
   genererDonneesDeTest() {
     //this.assignmentsService.peuplerBD();
