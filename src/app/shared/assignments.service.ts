@@ -30,6 +30,16 @@ export class AssignmentsService {
     return this.http.get<Assignment[]>(this.url + "?page=" + page + "&limit=" + limit+"&rendu="+rendu);
   }
 
+  getUtilisateurs():Observable<any> {
+    let urluser = "http://localhost:8010/api/utilisateurs";
+    // en réalité, bientôt au lieu de renvoyer un tableau codé en dur,
+    // on va envoyer une requête à un Web Service sur le cloud, qui mettra un
+    // certain temps à répondre. On va donc préparer le terrain en renvoyant
+    // non pas directement les données, mais en renvoyant un objet "Observable"
+    //return of(this.assignments);
+    return this.http.get<Assignment[]>(urluser);
+  }
+
   getAssignment(id:number):Observable<Assignment|undefined> {
     //let a = this.assignments.find(a => a.id === id);
     //return of(a);
