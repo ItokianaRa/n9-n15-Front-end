@@ -52,6 +52,10 @@ const routes:Routes = [
     path:"assignment/:id/edit",
     component: EditAssignmentComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path:"login",
+    component: LoginComponent
   }
 ]
 @NgModule({

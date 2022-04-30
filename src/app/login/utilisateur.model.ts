@@ -4,5 +4,6 @@ export class Utilisateur {
     nom!:string;
     prenom!:string;
     login!:string;
+    status!:string;
   }
   

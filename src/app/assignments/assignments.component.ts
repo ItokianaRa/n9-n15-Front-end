@@ -3,6 +3,7 @@ import { AfterViewInit, Component, NgZone, OnInit, ViewChild} from '@angular/cor
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
+import { AuthService } from './../shared/auth.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   prevPage= 1;
   nextPage= 2;
 
-  constructor(private assignmentsService:AssignmentsService, private ngZone: NgZone) {}
+  constructor(private assignmentsService:AssignmentsService, private ngZone: NgZone, public authService: AuthService) {}
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
@@ -148,5 +149,9 @@ getAssignmentsRendu() {
   dernierePage() {
     this.page = this.totalPages;
     this.getAssignments();
+  }
+
+  logOut(){
+    this.authService.logOut();
   }
 }

@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Utilisateur } from '../login/utilisateur.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private router : Router) { }
 
   loggedIn = false;
-  url = "http://localhost:8010/api/utilisateur";
+  url = "http://localhost:8010/api/utilisateurs";
 
   logIn(login:string, password:string) {
     // normalement il faudrait envoyer une requête sur un web service, passer le login et le password
@@ -20,29 +21,36 @@ export class AuthService {
       "mdp":password
     };
     this.http.post<Utilisateur>(this.url,data).subscribe(data =>{
-      /*if(data['status']==='success'){
-        localStorage.setItem('token',data['data']);
+      if(data != null){
+        localStorage.setItem('login',data.login);
+        localStorage.setItem('status',data.status);
         console.log("utilisateur connecte");
-        
+        this.loggedIn = true;
       }
       else
       {
-      
-      }*/
-      console.log("utilisateur " + data);
+        this.loggedIn = false;
+      }
     });
 
     // pour le moment, si on appelle cette méthode, on ne vérifie rien et on se loggue
-    this.loggedIn = true;
   }
 
   logOut() {
+    localStorage.clear();
+    this.router.navigate(['login']);
     this.loggedIn = false;
   }
 
   isAdmin() {
+    let status = localStorage.getItem('status');
+    let adminS = "admin";
+    let isAdmin = false;
+    if(status.toUpperCase() === adminS){
+      isAdmin = true;
+    };
     let isUserAdmin = new Promise((resolve, reject) => {
-      resolve(this.loggedIn);
+      resolve(isAdmin);
     });
     //return this.loggedIn;
     return isUserAdmin;

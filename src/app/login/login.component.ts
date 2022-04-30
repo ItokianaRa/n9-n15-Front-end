@@ -45,6 +45,13 @@ export class LoginComponent implements OnInit {
   onSignIn(){
     const formValue=this.loginForm.value;
     this.authService.logIn(formValue['login'], formValue['mdp']);
+    if(this.authService.loggedIn){
+      this.router.navigate(['home']);
+    }
+    else{
+      this.erreur = "Login ou mot de passe incorrecte. Veuillez réessayer."
+      console.log("erreur");
+    }
   }
 
 }
