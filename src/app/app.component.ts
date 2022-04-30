@@ -9,7 +9,7 @@ import { AuthService } from './shared/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  titre = 'Application de gestion des assignments...';
+  titre = 'Home';
 
   constructor(
     private authService: AuthService,
@@ -28,7 +28,6 @@ export class AppComponent {
       this.authService.logIn('michel', 'monpassword');
     }
   }
-
   isLogged() {
     return this.authService.loggedIn;
   }
@@ -49,4 +48,9 @@ export class AppComponent {
       this.router.navigate(['/home'], { replaceUrl: true });
     });
   }
+  
+getIsLogged(){
+  return this.authService.loggedIn;
+}
+
 }

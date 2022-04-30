@@ -1,17 +1,16 @@
 <main class="container">
+    <div class="button-top">
+    <button class="deconnexion" mat-stroked-button (click)="logOut()">
+      Se déconneter
+    </button>
     <a routerLink="/add" class="ajouterBtn">
       <button mat-flat-button color="accent">
         Ajouter Assignment
       </button>
     </a>
-    <button mat-flat-button color="blue" (click)="logOut()">
-      Se déconneter
-    </button>
-  
-    <h2>Liste des devoirs :</h2>
-  
-  
+  </div>
     <div class="barrePagination">
+      <h2>Liste des devoirs :</h2>
         <button mat-flat-button [color]="rendu ? 'primary' : 'info'" (click)="getAssignmentsRendu()">Rendu</button>
         <button mat-flat-button [color]="!rendu ? 'primary' : 'info'" (click)="getAssignmentsNonRendu()">Non Rendu</button>
       <p>Page courante : {{page}}, assignments visibles : {{pagingCounter}} - {{pagingCounter + limit-1}}, nbPages total {{totalPages}}</p>

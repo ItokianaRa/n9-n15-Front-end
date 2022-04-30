@@ -7,7 +7,9 @@
   text-align: left;
   padding: 5px;
 }
-
+.fiche-assignment{
+  margin:2rem;
+}
 .fiche-assignment img{
   width: 30%;
   display: block;

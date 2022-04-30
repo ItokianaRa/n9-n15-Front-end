@@ -1,0 +1,13 @@
+.login-div{
+    width: 30rem;
+    display: block;
+    margin: 0px auto;
+    padding: 2rem;
+}
+.login-div button,input{
+    width: 100%;
+}
+
+.example-full-width{
+    width: 100%
+}

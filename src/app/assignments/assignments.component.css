@@ -14,6 +14,9 @@
 }
 
 .ajouterBtn {
+  align-self: flex-start;
+}
+.deconnexion {
   align-self: flex-end;
   float: right;
 }
@@ -25,7 +28,9 @@ table {
 .mat-column-id {
   color:red;
 }
-
+.barrePagination{
+  margin: 1rem;
+}
 .example-viewport {
   height: 50rem;
   width: 100%;
@@ -67,3 +72,6 @@ table {
   width: 100%;
 }
 
+.button-top{
+  margin: 1rem;
+}

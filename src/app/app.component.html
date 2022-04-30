@@ -1,13 +1,12 @@
 <div class="container">
-  <h1>
+  <h1 *ngIf="getIsLogged" class="lien-home">
     <nav>
       <a routerLink="/home">{{titre}}</a>
     </nav>
   </h1>
-  <br>
   <!--
   <button mat-button color="primary" (click)="genererDonneesDeTest()">Peupler BD avec données de test</button>
   -->
+<router-outlet></router-outlet>
 </div>
 
-<router-outlet></router-outlet>
