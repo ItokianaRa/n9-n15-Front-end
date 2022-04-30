@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
   })
 
 export class Constante{
-    // lienApi="https://assignment-n9-n15-api.herokuapp.com";
-    lienApi="http://localhost:8010";
+    lienApi="https://assignment-n9-n15-api.herokuapp.com";
 
 }
