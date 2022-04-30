@@ -51,14 +51,25 @@ export class AssignmentDetailComponent implements OnInit {
 
   onDelete() {
     if (!this.assignmentTransmis) return;
-
-    this.assignmentsService
-      .deleteAssignment(this.assignmentTransmis)
-      .subscribe((reponse) => {
-        console.log(reponse.message);
-        // et on navigue vers la page d'accueil pour afficher la liste
-        this.router.navigate(['/home']);
-      });
+    this.authService.isAdmin().then((admin):boolean => {
+      //console.log("admin = " + admin + " type : " + (typeof admin))
+      if(admin) {
+        console.log("GARDIEN autorise la navigation, vous êtes bien un admin");
+        this.assignmentsService.deleteAssignment(this.assignmentTransmis)
+        .subscribe((reponse) => {
+          console.log(reponse.message);
+          // et on navigue vers la page d'accueil pour afficher la liste
+          this.router.navigate(['/home']);
+        });
+        return true;
+      } else {
+        // si pas admin on force la navigation vers la page d'accueil
+        console.log("GARDIEN n'autorise pas la navigation, vous n'êtes pas admin");
+        this.router.navigate(["/home"]);
+        return false;
+      }
+    })
+    
   }
 
   onClickEdit() {
