@@ -29,6 +29,8 @@ export class AuthService {
         localStorage.setItem('login',fObj.login);
         localStorage.setItem('status',fObj.status);
         localStorage.setItem('nom',fObj.nom+" "+fObj.prenom);
+        localStorage.setItem('name',fObj.nom);
+        localStorage.setItem('prenom',fObj.prenom);
         console.log("utilisateur connecte");
         this.loggedIn.next(true);
       }

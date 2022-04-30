@@ -1,0 +1,19 @@
+<h4 mat-dialog-title>
+  </h4>
+  
+  <mat-dialog-content>
+  
+    <form [formGroup]="notationForm" (ngSubmit)="onNotation()">
+        <input type="number" formControlName="note" >
+        <mat-dialog-actions>
+                <button class="btn btn-success btn-block" type="submit" >
+                  Save
+                </button>
+                <button class="btn btn-dark btn-block" mat-dialog-close>
+                  cancel
+                </button>
+        </mat-dialog-actions>
+    </form>
+    
+  </mat-dialog-content>
+  

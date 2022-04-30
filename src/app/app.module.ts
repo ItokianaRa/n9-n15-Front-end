@@ -31,6 +31,10 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
 import { AuthGuard } from './shared/auth.guard';
 import { LoginComponent } from './login/login.component';
 
+import { DragDropModule} from '@angular/cdk/drag-drop';
+import { NotationComponent } from './notation/notation.component';
+import { MatDialogModule } from "@angular/material/dialog";
+
 const routes:Routes = [
   {
     path:"",
@@ -67,15 +71,16 @@ const routes:Routes = [
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
-    LoginComponent
+    LoginComponent,
+    NotationComponent
   ],
   imports: [
     BrowserModule, FormsModule,
     BrowserAnimationsModule, MatButtonModule, MatIconModule, MatDividerModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule, MatTableModule,
-    RouterModule.forRoot(routes), HttpClientModule, ScrollingModule,
-    ReactiveFormsModule
+    RouterModule.forRoot(routes), HttpClientModule, ScrollingModule,DragDropModule,
+    ReactiveFormsModule,MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

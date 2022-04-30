@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   onSignIn(){
     const formValue=this.loginForm.value;
     this.authService.logIn(formValue['login'], formValue['mdp']);
-    if(this.authService.loggedIn){
+    if(this.authService.loggedIn.value){
       this.router.navigate(['home']);
     }
     else{

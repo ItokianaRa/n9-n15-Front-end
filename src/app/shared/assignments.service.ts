@@ -29,7 +29,12 @@ export class AssignmentsService {
     // certain temps à répondre. On va donc préparer le terrain en renvoyant
     // non pas directement les données, mais en renvoyant un objet "Observable"
     //return of(this.assignments);
-    return this.http.get<Assignment[]>(this.url + "?page=" + page + "&limit=" + limit+"&rendu="+rendu);
+    var params = "?page=" + page + "&limit=" + limit+"&rendu="+rendu;
+    if(localStorage.getItem('nom')!=null && localStorage.getItem('prenom')!=null && localStorage.getItem('status')!=null){
+      params += "&nom="+localStorage.getItem('nom')+"&prenom="+localStorage.getItem('prenom')+"&status="+localStorage.getItem('status');
+      console.log("misyyyyy " + params);
+    }
+    return this.http.get<Assignment[]>(this.url + params);
   }
 
   getUtilisateurs():Observable<any> {
@@ -81,6 +86,12 @@ export class AssignmentsService {
     this.loggingService.log(assignment.nom, "modifié");
 
     return this.http.put<Assignment>(this.url, assignment);
+  }
+
+  updateNote(assignment:Assignment):Observable<any> {
+    this.loggingService.log(assignment.nom, "modifié");
+    var link = this.constante.lienApi+"/api/notes";
+    return this.http.put<Assignment>(link, assignment);
   }
 
   deleteAssignment(assignment:Assignment):Observable<any> {

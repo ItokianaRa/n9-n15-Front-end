@@ -15,7 +15,11 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
     private assignmentsService: AssignmentsService
-  ) {}
+  ) {
+    if(!localStorage.getItem('login')){
+      this.router.navigate(['login'])
+    }
+  }
 
   onLoginLogout() {
     if (this.authService.loggedIn) {

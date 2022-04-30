@@ -1,10 +1,13 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { AfterViewInit, Component, NgZone, OnInit, ViewChild} from '@angular/core';
-import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
+import { filter, map, pairwise, tap, throttleTime,BehaviorSubject } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
 import { AuthService } from './../shared/auth.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import * as _ from "lodash";
+import { NotationComponent } from 'src/app/notation/notation.component';
+import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
@@ -15,9 +18,12 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 export class AssignmentsComponent implements OnInit, AfterViewInit {
   assignments:Assignment[] = [];
   displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+  devoirs= new BehaviorSubject<any>(null);
+  rendus : string[] = [];
+  nonrendus : string[] = [];
 
   // pagination
-  rendu=false;
+  rendu :boolean = false;
   page=1;
   limit=10;
   totalPages=0;
@@ -27,7 +33,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   prevPage= 1;
   nextPage= 2;
 
-  constructor(private assignmentsService:AssignmentsService, private ngZone: NgZone, public authService: AuthService) {}
+  constructor(private assignmentsService:AssignmentsService, private ngZone: NgZone, public authService: AuthService,public dialog: MatDialog) {}
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
@@ -73,6 +79,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log("Dans ngOnInit, appelé avant l'affichage");
     this.getAssignments();
+    console.log("session = " + this.authService.loggedIn);
   }
 
 
@@ -95,7 +102,7 @@ getAssignmentsRendu() {
       // demander les données au service de gestion des assignments...
       this.assignmentsService.getAssignments(this.page, this.limit,this.rendu)
       .subscribe(reponse => {
-        console.log("données arrivées");
+        
         this.assignments = reponse.docs;
         this.page = reponse.page;
         this.limit=reponse.limit;
@@ -105,6 +112,21 @@ getAssignmentsRendu() {
         this.hasNextPage=reponse.hasNextPage;
         this.prevPage= reponse.prevPage;
         this.nextPage= reponse.nextPage;
+        var temp = groupBy(this.assignments,'id');
+        this.devoirs.next([]);
+        this.devoirs.next(temp);
+        if(this.rendu){
+          this.nonrendus = [];
+          this.rendus = this.assignments.map(
+            (assignment)=>String(assignment.id)
+          );
+        }
+        else{
+          this.rendus = [];
+          this.nonrendus = this.assignments.map(
+            (assignment)=>String(assignment.id)
+          );
+        }
       });
 
       console.log("Après l'appel au service");
@@ -114,7 +136,7 @@ getAssignmentsRendu() {
     // demander les données au service de gestion des assignments...
     this.assignmentsService.getAssignments(this.page, this.limit,this.rendu)
     .subscribe(reponse => {
-      console.log("données arrivées");
+      console.log("données arrivées"); 
       //this.assignments = reponse.docs;
       // au lieu de remplacer les assignments chargés par les nouveaux, on les ajoute
       this.assignments = this.assignments.concat(reponse.docs);
@@ -156,10 +178,6 @@ getAssignmentsRendu() {
     this.authService.logOut();
   }
 
-  items = ['Carrots', 'Tomatoes', 'Onions', 'Apples', 'Avocados'];
-
-  basket = ['Oranges', 'Bananas', 'Cucumbers'];
-
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -170,6 +188,38 @@ getAssignmentsRendu() {
         event.previousIndex,
         event.currentIndex,
       );
+      console.log(event.container.data);
+      const dialogRef = this.dialog.open(NotationComponent, {
+        width: '250px',
+        data: {id: event.container.data[0]}
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          //ws
+         
+        }
+        else{
+          transferArrayItem(
+            event.container.data,
+            event.previousContainer.data,
+            event.currentIndex,
+            event.previousIndex,
+          );
+        }
+      });
+      
     }
   }
+  noReturnPredicate() {
+    return false;
+  }
 }
+export const groupBy = (list: any, key: string) => {
+
+  return _.mapValues(
+      _.groupBy(list, key),
+      (result: any) => result.map((car: any) => _.omit(car, key))
+  );
+
+};

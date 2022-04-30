@@ -1,14 +1,18 @@
 <main class="container">
     <div class="button-top">
-    <button class="deconnexion" mat-stroked-button (click)="logOut()">
-      Se déconneter
-    </button>
+  <div class="row">
     <a routerLink="/add" class="ajouterBtn">
       <button mat-flat-button color="accent">
         Ajouter Assignment
       </button>
     </a>
   </div>
+    <button mat-flat-button color="blue" (click)="logOut()">
+      Se déconnecter
+    </button>
+  
+  
+  
     <div class="barrePagination">
       <h2>Liste des devoirs :</h2>
         <button mat-flat-button [color]="rendu ? 'primary' : 'info'" (click)="getAssignmentsRendu()">Rendu</button>
@@ -30,50 +34,107 @@
       &nbsp;
       <button mat-flat-button color="primary" (click)="dernierePage()" [disabled]="!hasNextPage">Dernière page</button>
     </div>
-    <cdk-virtual-scroll-viewport itemSize="150" class="example-viewport" #scroller>
-    <!-- <mat-list *cdkVirtualFor="let assignment of assignments"> -->
-      <div class="list-assignment">
-
-    <mat-list  class="card-galerie" *cdkVirtualFor="let assignment of assignments">
-    <!-- <mat-list class="card-galerie" *ngFor="let assignment of assignments"> -->
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + '../../assets/'+assignment.imageprof + ')'}"></div>
-          <mat-card-title>
-              <span *ngIf="assignment.matiere!=null; else matiereVide">
-                  {{assignment.matiere}}
-              </span>
-              <ng-template #matiereVide>Matière</ng-template>
-          </mat-card-title>
-          <mat-card-subtitle>
-              <span *ngIf="assignment.professeur!=null; else professeurVide">
-                  {{assignment.professeur}}
-              </span>
-              <ng-template #professeurVide>Professeur</ng-template>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image src="{{'../../assets/'+assignment.image}}" alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <h3 mat-subheader>{{assignment.dateDeRendu | date:"dd/MM/yy"}}</h3>
-          <mat-list-item class="nom-assignment">
-            <p>
-                <span *ngIf="assignment.nom.lenght>150; else nomLong">
-                    {{assignment.nom}}
-                </span>
-                <ng-template #nomLong>{{assignment.nom.substring(0,150)}}...</ng-template>
-                </p>
-          </mat-list-item>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-button href="/assignment/{{assignment.id}}">Voir fiche</a>
-          <!-- <button mat-button>SHARE</button> -->
-        </mat-card-actions>
-      </mat-card>
-  
-    </mat-list>
   </div>
-  </cdk-virtual-scroll-viewport>
   
+  <div cdkDropListGroup>
+    <div class="example-container">
+      <h2>Assignments non rendus</h2>
+  
+      <div
+        cdkDropList
+        [cdkDropListData]="nonrendus"
+        class="example-list"
+        cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListEnterPredicate]="noReturnPredicate">
+        <div class="example-box" *ngFor="let item of nonrendus" cdkDrag>
+          <mat-card class="example-card">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + '../../assets/'+devoirs.value[item][0].imageprof + ')'}"></div>
+              <mat-card-title>
+                  <span *ngIf="devoirs.value[item][0].matiere!=null; else matiereVide">
+                      {{devoirs.value[item][0].matiere}} <!-- {{devoirs.value[item][0]._id}} -->
+                  </span>
+                  <ng-template #matiereVide>Matière</ng-template>
+              </mat-card-title>
+              <mat-card-subtitle>
+                  <span *ngIf="devoirs.value[item][0].professeur!=null; else professeurVide">
+                      {{devoirs.value[item][0].professeur}}
+                  </span>
+                  <ng-template #professeurVide>Professeur</ng-template>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{'../../assets/'+devoirs.value[item][0].image}}" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <h3 mat-subheader>{{devoirs.value[item][0].dateDeRendu | date:"dd/MM/yy"}}</h3>
+              <mat-list-item class="nom-assignment">
+                <p>
+                    <span *ngIf="devoirs.value[item][0].nom.length>150; else nomLong">
+                        {{devoirs.value[item][0].nom}}
+                    </span>
+                    <ng-template #nomLong>{{devoirs.value[item][0].nom.substring(0,150)}}...</ng-template>
+                    </p>
+              </mat-list-item>
+            </mat-card-content>
+            <mat-card-actions>
+              <a mat-button href="/assignment/{{item}}">Voir fiche</a>
+              <!-- <button mat-button>SHARE</button> -->
+            </mat-card-actions>
+          </mat-card>
+
+        </div>
+      </div>
+    </div>
+  
+    <div class="example-container">
+      <h2>Assignments rendus</h2>
+  
+      <div
+        cdkDropList
+        [cdkDropListData]="rendus"
+        class="example-list"
+        cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of rendus" cdkDrag>
+          <mat-card class="example-card">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + '../../assets/'+devoirs.value[item][0].imageprof + ')'}"></div>
+              <mat-card-title>
+                  <span *ngIf="devoirs.value[item][0].matiere!=null; else matiereVide">
+                      {{devoirs.value[item][0].matiere}}
+                  </span>
+                  <ng-template #matiereVide>Matière</ng-template>
+              </mat-card-title>
+              <mat-card-subtitle>
+                  <span *ngIf="devoirs.value[item][0].professeur!=null; else professeurVide">
+                      {{devoirs.value[item][0].professeur}}
+                  </span>
+                  <ng-template #professeurVide>Professeur</ng-template>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{'../../assets/'+devoirs.value[item][0].image}}" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+              <h3 mat-subheader>{{devoirs.value[item][0].dateDeRendu | date:"dd/MM/yy"}}</h3>
+              <mat-list-item class="nom-assignment">
+                <p>
+                    <span *ngIf="devoirs.value[item][0].nom.length>150; else nomLong">
+                        {{devoirs.value[item][0].nom}}
+                    </span>
+                    <ng-template #nomLong>{{devoirs.value[item][0].nom.substring(0,150)}}...</ng-template>
+                    </p>
+              </mat-list-item>
+            </mat-card-content>
+            <mat-card-actions>
+              <a mat-button href="/assignment/{{item}}">Voir fiche</a>
+              <!-- <button mat-button>SHARE</button> -->
+            </mat-card-actions>
+          </mat-card>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   </main>
   
   
