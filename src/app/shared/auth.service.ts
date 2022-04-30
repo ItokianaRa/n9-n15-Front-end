@@ -3,16 +3,18 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Utilisateur } from '../login/utilisateur.model';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { Constante } from 'src/app/shared/constante';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http:HttpClient,private router : Router) { }
+  constructor(private http:HttpClient,private router : Router,
+  private constante:Constante) { }
   statusEtudiant = "etudiant";
   loggedIn = new BehaviorSubject<boolean>(false);
-  url = "http://localhost:8010/api/utilisateurs";
+  url = this.constante.lienApi+"/api/utilisateurs";
 
   logIn(login:string, password:string) {
     // normalement il faudrait envoyer une requête sur un web service, passer le login et le password

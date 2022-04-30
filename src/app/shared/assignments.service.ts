@@ -4,6 +4,7 @@ import { catchError, filter, forkJoin, map, Observable, of, pairwise, tap } from
 import { Assignment } from '../assignments/assignment.model';
 import { LoggingService } from './logging.service';
 import { bdInitialAssignments } from './data';
+import { Constante } from 'src/app/shared/constante';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,14 @@ import { bdInitialAssignments } from './data';
 export class AssignmentsService {
   assignments:Assignment[] = [];
 
-  constructor(private loggingService:LoggingService, private http:HttpClient) {
+  constructor(private loggingService:LoggingService, private http:HttpClient
+  , private constante:Constante) {
     this.loggingService.setNiveauTrace(2);
-
+   
   }
 
 
-  url = "http://localhost:8010/api/assignments";
+  url = this.constante.lienApi+"/api/assignments";
   //url= "https://mbdsmadagascar2022api.herokuapp.com/api/assignments";
 
   getAssignments(page:number, limit:number,rendu:boolean):Observable<any> {
@@ -31,7 +33,7 @@ export class AssignmentsService {
   }
 
   getUtilisateurs():Observable<any> {
-    let urluser = "http://localhost:8010/api/utilisateurs";
+    let urluser = this.constante.lienApi+"/api/utilisateurs";
     // en réalité, bientôt au lieu de renvoyer un tableau codé en dur,
     // on va envoyer une requête à un Web Service sur le cloud, qui mettra un
     // certain temps à répondre. On va donc préparer le terrain en renvoyant
